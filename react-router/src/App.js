@@ -6,28 +6,99 @@ import NewPost from "./NewPost";
 import PostPage from "./PostPage";
 import About from "./About";
 import Missing from "./Missing";
-import { Route, Routes } from "react-router-dom"; // Use Routes instead of Switch
-import { useState, useEffect } from "react";
+import { BrowserRouter, Route, Routes , useNavigate } from "react-router-dom"; // Use Routes instead of Switch
+import { useState, useEffect} from "react";
+import {format} from 'date-fns';
 
 function App() {
+  const [posts, setPosts] = useState([
+    {
+      id: 1,
+      title: "My First Post",
+      datetime: "July 01, 2021 11:17:36 AM",
+      body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis consequatur expedita, assumenda similique non optio! Modi nesciunt excepturi corrupti atque blanditiis quo nobis, non optio quae possimus illum exercitationem ipsa!"
+    },
+    {
+      id: 2,
+      title: "My 2nd Post",
+      datetime: "July 01, 2021 11:17:36 AM",
+      body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis consequatur expedita, assumenda similique non optio! Modi nesciunt excepturi corrupti atque blanditiis quo nobis, non optio quae possimus illum exercitationem ipsa!"
+    },
+    {
+      id: 3,
+      title: "My 3rd Post",
+      datetime: "July 01, 2021 11:17:36 AM",
+      body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis consequatur expedita, assumenda similique non optio! Modi nesciunt excepturi corrupti atque blanditiis quo nobis, non optio quae possimus illum exercitationem ipsa!"
+    },
+    {
+      id: 4,
+      title: "My Fourth Post",
+      datetime: "July 01, 2021 11:17:36 AM",
+      body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis consequatur expedita, assumenda similique non optio! Modi nesciunt excepturi corrupti atque blanditiis quo nobis, non optio quae possimus illum exercitationem ipsa!"
+    }
+  ])
+  const [search , setSearch] = useState('')
+  const[searchResults , setSearchResults] = useState([])
+  const [postTitle , setPostTitle] = useState('')
+  const [postBody , setPostBody] = useState('')
+  
+
+  const navigate = useNavigate()
+
+
+  useEffect(() => {
+    const filteredResults = posts.filter((post) =>
+      ((post.body).toLowerCase()).includes(search.toLowerCase())
+      || ((post.title).toLowerCase()).includes(search.toLowerCase()));
+
+    setSearchResults(filteredResults.reverse());
+  }, [posts, search])
+  
+  const handleSubmit = (e) =>{
+    e.preventDefault()
+    const id  = posts.length ? posts[posts.length - 1].id + 1 : 1
+    const dateTime =  format( new Date() , 'MMMM dd , yyyy hh:mm:ss a')
+    const newPost = {id , title : postTitle , datetime : dateTime , body : postBody}
+    const allPosts = [...posts , newPost]
+    setPosts(allPosts)
+    setPostTitle('')
+    setPostBody('')
+    navigate('/')
+
+  }
+
+  const handleDelete = (id) => {
+    const postList = posts.filter(post => post.id !== id)
+    setPosts(postList)
+    navigate('/')
+
+  }
+
   return (
     <div className="App">
-      <Header />
-      <Nav />
+      <Header title="REACT JS BLOG" />
+      <Nav  
+      search={search}
+      setSearch={setSearch}
+      />
       <Routes>
-        {/* Route for the Home page */}
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home posts={searchResults} />} />
 
-        {/* Route for creating a new post */}
-        <Route path="/post" element={<NewPost />} />
+        <Route path="/post" element={<NewPost
+         handleSubmit = {handleSubmit}
+         postTitle = {postTitle}
+         setPostTitle = {setPostTitle}
+         postBody = {postBody}
+         setPostBody = {setPostBody}
+         
+         />}
+         
+        />
 
-        {/* Route for a specific post */}
-        <Route path="/post/:id" element={<PostPage />} />
+        <Route path="/post/:id" element={<PostPage posts={posts} handleDelete={handleDelete} />} />
 
-        {/* Route for the About page */}
         <Route path="/about" element={<About />} />
 
-        {/* Fallback for missing routes */}
         <Route path="*" element={<Missing />} />
       </Routes>
       <Footer />
