@@ -11,6 +11,8 @@ import { useState, useEffect} from "react";
 import {format} from 'date-fns';
 import api from './api/posts' 
 import EditPost from "./EditPost";
+import useWindowSize from "./hooks/useWindowSize";
+//import useAxiosFetch from "./hooks/useAxiosFetch";
 
 function App() {
   const [posts, setPosts] = useState([])
@@ -21,6 +23,9 @@ function App() {
   const [editTitle , setEditTitle] = useState('')
   const [editBody , setEditBody] = useState('')
   const navigate = useNavigate()
+  const {width} = useWindowSize()
+ // const {data , fetchError, isLoading} = useAxiosFetch("http://localhost:3500/posts") //not used because didnot understand the custom hooks
+
 
   useEffect(()=> {
     const fetchPosts = async ()=> {
@@ -99,7 +104,7 @@ function App() {
 
   return (
     <div className="App">
-      <Header title="REACT JS BLOG" />
+      <Header title="REACT JS BLOG" width = {width} />
       <Nav  
       search={search}
       setSearch={setSearch}
