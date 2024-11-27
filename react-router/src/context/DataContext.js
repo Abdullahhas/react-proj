@@ -21,7 +21,7 @@ export const DataProvider = ({children})=>{
 
   useEffect(()=> {
     const fetchPosts = async ()=> {
-      try {
+      try { 
         const response = await api.get('/posts')
         setPosts(response.data)
       } catch (err) {
