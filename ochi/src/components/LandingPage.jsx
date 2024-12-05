@@ -19,7 +19,7 @@ function LandingPage() {
                                     }}
                                 ></div>
                             )}
-                            <h1 className='pt-[2vw] -mb-[1vw] flex items-center uppercase text-[9vw] leading-[.75] font-medium tracking-tighter font-["FoundersGrotesk"]'>
+                            <h1 className='pt-[2vw] -mb-[1vw] flex items-center uppercase text-[9vw] leading-[.75] font-medium tracking-tighter font-["Roboto"]'>
                                 {item}
                             </h1>
                         </div>
@@ -27,7 +27,7 @@ function LandingPage() {
                 ))}
             </div>
 
-            <div className='border-t-[1px] border-zinc-800 mt-32 flex justify-between items-center py-5 px-20'>
+            <div className='border-t-[1px] border-zinc-800 mt-20 flex justify-between items-center py-5 px-20'>
                 {['For public and private companies', 'From the first pitch to the IPO'].map((item, index) => (
                     <p className='text-md font-light tracking-tight leading-none' key={index}>
                         {item}
