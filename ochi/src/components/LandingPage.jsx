@@ -1,23 +1,24 @@
 import React from 'react';
 import { FaArrowUpLong } from 'react-icons/fa6';
+import {motion} from  'framer-motion';
 
 function LandingPage() {
+    
     return (
-        <div className='w-full min-h-screen bg-zinc-900 pt-2'> 
+        <div data-scroll data-scroll-section data-scroll-speed="-.3" className='w-full min-h-screen bg-zinc-900 pt-2'> 
             <div className='textstructure mt-52 px-20'>
                 {['We Create', 'Eye Opening', 'Presentations'].map((item, index) => (
                     <div className='masker' key={index}>
                         <div className='w-fit flex items-baseline'>
-                            {/* Adjust the red rectangle for the second text */}
+                            
                             {index === 1 && (
-                                <div 
-                                    className='bg-red-400 rounded-md relative mr-5'  
-                                    style={{
-                                        width: '9vw',
-                                        height: '6vw',
-                                       
-                                    }}
-                                ></div>
+                                <motion.div 
+                                initial={{width:0 }}
+                                animate={{width: "9vw" }}
+                                transition={{ease: [0.76 , 0 , 0.24, 1] , duration : 1 }}
+                                    className='bg-red-400 rounded-md relative  w-[9vw] h-[6.5vw] '  
+                                   
+                                ></motion.div>
                             )}
                             <h1 className='pt-[2vw] -mb-[1vw] flex items-center uppercase text-[9vw] leading-[.75] font-medium tracking-tighter font-["Roboto"]'>
                                 {item}
